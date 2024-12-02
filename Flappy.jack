@@ -1,0 +1,42 @@
+class Flappy {
+    field int x, y; // Position of the bird
+    field int velocity; // Current velocity of the bird
+    field int gravity; // Gravity effect
+    field int jumpStrength; // Strength of the jump
+    field boolean isJumping; // To check if the bird is jumping
+
+    constructor Flappy new(int startX, int startY) {
+        let x = startX;
+        let y = startY;
+        let velocity = 0;
+        let gravity = 1; // Adjust as needed
+        let jumpStrength = -5; // Negative for upward movement
+        let isJumping = false;
+        return this;
+    }
+
+
+    method void update() {
+        if (~isJumping) {
+            let velocity = velocity + gravity; // Apply gravity
+        } else {
+            let isJumping = false; // Reset jump state
+        }
+        let y = y + velocity; // Update bird's position
+        if (y > 254) { // Prevent falling out of screen (adjust based on screen height)
+            let y = 254;
+            let velocity = 0;
+        }
+        if (y < 0) { // Prevent going above the screen
+            let y = 0;
+            let velocity = 0;
+        }
+        return;
+    }
+
+    method void jump() {
+        let velocity = jumpStrength; // Apply jump velocity
+        let isJumping = true; // Set jump state
+        return;
+    }
+}
