@@ -1,0 +1,330 @@
+class Pipe {
+    static int rightmost;
+
+    field int gapHeight;       // Gap between the upper and lower pipes
+    field int width;           // Width of the pipes
+    field int location;        // Horizontal position of the pipe
+    field int destroy_location; // Point beyond which the pipe should reset
+    field int sprite;          // Type of pipe (e.g., 1 for normal, -1 for passed)
+    field int sprite_seq_pos;  // Animation sequence position
+
+    // Top left and bottom right of the collision box for the upper pipe
+    field int upper_tl_x;
+    field int upper_tl_y;
+    field int upper_br_x;
+    field int upper_br_y;
+
+    // Top left and bottom right of the collision box for the lower pipe
+    field int lower_tl_x;
+    field int lower_tl_y;
+    field int lower_br_x;
+    field int lower_br_y;
+
+    constructor Pipe new() {
+        do reset();
+        if (~rightmost) { let rightmost = 30; }
+        return this;
+    }
+
+	function void decrement_rightmost() {
+		let rightmost = rightmost - 1;
+		if (rightmost < 30) {let rightmost = 29;}
+		return;
+	}
+
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+
+    method void update() {
+		// Skip drawing if the pipes are not on the screen yet
+		if (lower_tl_x > 30 & upper_tl_x > 30) {
+			let location = location - 1;  // Shift left
+			let lower_tl_x = lower_tl_x - 1;
+			let lower_br_x = lower_br_x - 1;
+
+			let upper_tl_x = upper_tl_x - 1;
+			let upper_br_x = upper_br_x - 1;
+			return;
+		}
+	
+		// Draw the lower pipe based on its sequence position
+		if (sprite = 1) {
+			if (sprite_seq_pos = 1) {
+				do Graphics.drawLowerPipe1Begin1(location);
+				do Graphics.drawUpperPipe3Begin1(location);
+			}
+			else {if (sprite_seq_pos = 2) {
+				do Graphics.drawLowerPipe1Begin2(location);
+				do Graphics.drawUpperPipe3Begin2(location);
+			}
+			else {if (sprite_seq_pos = 3) {
+				do Graphics.drawLowerPipe1Begin3(location);
+				do Graphics.drawUpperPipe3Begin3(location);
+			}
+			else {if (sprite_seq_pos = 4) {
+				do Graphics.drawLowerPipe1Begin4(location);
+				do Graphics.drawUpperPipe3Begin4(location);
+			}
+			else {if (sprite_seq_pos = 5) {
+				do Graphics.drawLowerPipe1Begin5(location);
+				do Graphics.drawUpperPipe3Begin5(location);
+			}
+			else {if (sprite_seq_pos = 6) {
+				do Graphics.drawLowerPipe1Begin6(location);
+				do Graphics.drawUpperPipe3Begin6(location);
+			}
+			else {if (sprite_seq_pos = 7) {
+				do Graphics.drawLowerPipe1(location);
+				do Graphics.drawLowerPipe3(location);
+				let location = location - 1;  // shifting over one block
+				let lower_tl_x = lower_tl_x - 1;
+				let lower_br_x = lower_br_x - 1;
+
+				let upper_tl_x = upper_tl_x - 1;
+				let upper_br_x = upper_br_x - 1;
+				let sprite_seq_pos = 0;
+			}}}}}}}
+		}
+
+		else {if (sprite = 2) {
+			if (sprite_seq_pos = 1) {
+				do Graphics.drawLowerPipe2Begin1(location);
+				do Graphics.drawUpperPipe2Begin1(location);
+			}
+			else {if (sprite_seq_pos = 2) {
+				do Graphics.drawLowerPipe2Begin2(location);
+				do Graphics.drawUpperPipe2Begin2(location);
+			}
+			else {if (sprite_seq_pos = 3) {
+				do Graphics.drawLowerPipe2Begin3(location);
+				do Graphics.drawUpperPipe2Begin3(location);
+			}
+			else {if (sprite_seq_pos = 4) {
+				do Graphics.drawLowerPipe2Begin4(location);
+				do Graphics.drawUpperPipe2Begin4(location);
+			}
+			else {if (sprite_seq_pos = 5) {
+				do Graphics.drawLowerPipe2Begin5(location);
+				do Graphics.drawUpperPipe2Begin5(location);
+			}
+			else {if (sprite_seq_pos = 6) {
+				do Graphics.drawLowerPipe2Begin6(location);
+				do Graphics.drawUpperPipe2Begin6(location);
+			}
+			else {if (sprite_seq_pos = 7) {
+				do Graphics.drawLowerPipe2(location);
+				do Graphics.drawUpperPipe2(location);
+				let location = location - 1;  // shifting over one block
+				let lower_tl_x = lower_tl_x - 1;
+				let lower_br_x = lower_br_x - 1;
+
+				let upper_tl_x = upper_tl_x - 1;
+				let upper_br_x = upper_br_x - 1;
+				let sprite_seq_pos = 0;
+			}}}}}}}
+		}
+
+		else {if (sprite = 3) {
+			if (sprite_seq_pos = 1) {
+				do Graphics.drawLowerPipe3Begin1(location);
+				do Graphics.drawUpperPipe1Begin1(location);
+			}
+			else {if (sprite_seq_pos = 2) {
+				do Graphics.drawLowerPipe3Begin2(location);
+				do Graphics.drawUpperPipe1Begin2(location);
+			}
+			else {if (sprite_seq_pos = 3) {
+				do Graphics.drawLowerPipe3Begin3(location);
+				do Graphics.drawUpperPipe1Begin3(location);
+			}
+			else {if (sprite_seq_pos = 4) {
+				do Graphics.drawLowerPipe3Begin4(location);
+				do Graphics.drawUpperPipe1Begin4(location);
+			}
+			else {if (sprite_seq_pos = 5) {
+				do Graphics.drawLowerPipe3Begin5(location);
+				do Graphics.drawUpperPipe1Begin5(location);
+			}
+			else {if (sprite_seq_pos = 6) {
+				do Graphics.drawLowerPipe3Begin6(location);
+				do Graphics.drawUpperPipe1Begin6(location);
+			}
+			else {if (sprite_seq_pos = 7) {
+				do Graphics.drawLowerPipe3(location);
+				do Graphics.drawUpperPipe1(location);
+				let location = location - 1;  // shifting over one block
+				let lower_tl_x = lower_tl_x - 1;
+				let lower_br_x = lower_br_x - 1;
+
+				let upper_tl_x = upper_tl_x - 1;
+				let upper_br_x = upper_br_x - 1;
+				let sprite_seq_pos = 0;
+			}}}}}}}}
+
+			else {if (sprite = -1) {
+				if (sprite_seq_pos = 1) {
+					do Graphics.drawLowerPipe1End1(location);
+					do Graphics.drawUpperPipe3End1(location);
+				}
+				else {if (sprite_seq_pos = 2) {
+					do Graphics.drawLowerPipe1End2(location);
+					do Graphics.drawUpperPipe3End2(location);
+				}
+				else {if (sprite_seq_pos = 3) {
+					do Graphics.drawLowerPipe1End3(location);
+					do Graphics.drawUpperPipe3End3(location);
+				}
+				else {if (sprite_seq_pos = 4) {
+					do Graphics.drawLowerPipe1End4(location);
+					do Graphics.drawUpperPipe3End4(location);
+				}
+				else {if (sprite_seq_pos = 5) {
+					do Graphics.drawLowerPipe1End5(location);
+					do Graphics.drawUpperPipe3End5(location);
+				}
+				else {if (sprite_seq_pos = 6) {
+					do Graphics.drawLowerPipe1End6(location);
+					do Graphics.drawUpperPipe3End6(location);
+				}
+				else {if (sprite_seq_pos = 7) {
+					let sprite_seq_pos = 0;
+					do reset();
+				}
+				}}}}}}}
+
+				else {if (sprite = -2) {
+					if (sprite_seq_pos = 1) {
+						do Graphics.drawLowerPipe2End1(location);
+						do Graphics.drawUpperPipe2End1(location);
+					}
+					else {if (sprite_seq_pos = 2) {
+						do Graphics.drawLowerPipe2End2(location);
+						do Graphics.drawUpperPipe2End2(location);
+					}
+					else {if (sprite_seq_pos = 3) {
+						do Graphics.drawLowerPipe2End3(location);
+						do Graphics.drawUpperPipe2End3(location);
+					}
+					else {if (sprite_seq_pos = 4) {
+						do Graphics.drawLowerPipe2End4(location);
+						do Graphics.drawUpperPipe2End4(location);
+					}
+					else {if (sprite_seq_pos = 5) {
+						do Graphics.drawLowerPipe2End5(location);
+						do Graphics.drawUpperPipe2End5(location);
+					}
+					else {if (sprite_seq_pos = 6) {
+						do Graphics.drawLowerPipe2End6(location);
+						do Graphics.drawUpperPipe2End6(location);
+					}
+					else {if (sprite_seq_pos = 7) {
+						let sprite_seq_pos = 0;
+						do reset();
+					}}}}}}}}
+
+					else {if (sprite = -3) {
+						if (sprite_seq_pos = 1) {
+							do Graphics.drawLowerPipe3End1(location);
+							do Graphics.drawUpperPipe1End1(location);
+						}
+						else {if (sprite_seq_pos = 2) {
+							do Graphics.drawLowerPipe3End2(location);
+							do Graphics.drawUpperPipe1End2(location);
+						}
+						else {if (sprite_seq_pos = 3) {
+							do Graphics.drawLowerPipe3End3(location);
+							do Graphics.drawUpperPipe1End3(location);
+						}
+						else {if (sprite_seq_pos = 4) {
+							do Graphics.drawLowerPipe3End4(location);
+							do Graphics.drawUpperPipe1End4(location);
+						}
+						else {if (sprite_seq_pos = 5) {
+							do Graphics.drawLowerPipe3End5(location);
+							do Graphics.drawUpperPipe1End5(location);
+						}
+						else {if (sprite_seq_pos = 6) {
+							do Graphics.drawLowerPipe3End6(location);
+							do Graphics.drawUpperPipe1End6(location);
+						}
+						else {if (sprite_seq_pos = 7) {
+							let sprite_seq_pos = 0;
+							do reset();
+						}}}}}}}}
+					}
+				}
+			}
+		}
+	}
+
+
+	
+		// Check if the pipe has passed the destroy location
+		if (location = destroy_location & sprite > 0) {
+			// Begin the end process for the pipe
+			let sprite_seq_pos = 0;
+			let lower_br_x = 0;
+			let upper_br_x = 0;
+			let sprite = -sprite;  // Mark the pipe as exiting
+		}
+	
+		// Advance the animation sequence position
+		let sprite_seq_pos = sprite_seq_pos + 1;
+	
+		// Update the pipe's location to move leftward
+		let location = location - 1;
+		let lower_tl_x = lower_tl_x - 1;
+		let upper_tl_x = upper_tl_x - 1;
+
+		let lower_br_x = lower_br_x - 1;
+		let upper_br_x = upper_br_x - 1;
+	
+		return;
+	}
+	
+
+    method void reset() {
+        // Randomize the vertical position of the gap
+        let gapHeight = 20;
+        let upper_br_y = LCGRandom.randRange(120, 180);
+        let upper_tl_y = 0;
+
+        // Set dimensions and positions for the pipes
+        let width = 2; // Width of the pipe in blocks
+        let lower_tl_y = upper_br_y - gapHeight;
+        let lower_br_y = 244;
+
+        let upper_tl_x = rightmost + LCGRandom.randRange(20, 200);
+        let upper_br_x = upper_tl_x + width;
+
+        let lower_tl_x = upper_tl_x;
+        let lower_br_x = upper_br_x;
+
+        let rightmost = upper_tl_x;
+        let destroy_location = -width; // Pipe resets when it goes off the left edge
+        let location = destroy_location + upper_tl_x;
+
+        let sprite = 1;
+        let sprite_seq_pos = 0;
+        return;
+    }
+
+    method boolean collision(int bird_tl_x, int bird_tl_y, int bird_br_x, int bird_br_y) {
+        // Check collision with upper pipe
+        if (~((bird_br_x < upper_tl_x) | (bird_tl_x > upper_br_x) |
+              (bird_br_y < upper_tl_y) | (bird_tl_y > upper_br_y))) {
+            return true;
+        }
+
+        // Check collision with lower pipe
+        if (~((bird_br_x < lower_tl_x) | (bird_tl_x > lower_br_x) |
+              (bird_br_y < lower_tl_y) | (bird_tl_y > lower_br_y))) {
+            return true;
+        }
+
+        return false;
+    }
+}

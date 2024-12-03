@@ -1,0 +1,71 @@
+class Flappy {
+	static int _gravity;
+	static int _jump_velocity;
+	
+	field int location;
+	field int initial_location;
+	field int downVelocity;  // represents the amount that the player still needs to be moving upward
+ 	field boolean feet_pos;
+	field int clock;
+	field int height;
+	field int initial_height;
+	
+	constructor Flappy new(int pos) {
+		let _gravity = 3;
+		let _jump_velocity = -30;
+		
+		let location = pos;
+		let initial_height = (location / 32) - 16; //(16 words tall head)
+		let height = initial_height;
+		let initial_location = pos;
+		let downVelocity = 0;
+		let feet_pos = true;
+		let clock = 0;
+		do Graphics.drawBird(location);
+		return this;
+	}
+	
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	function void set_physics(int gravity, int jump_velocity) {
+		let _gravity = gravity;
+		let _jump_velocity = jump_velocity;
+		return;
+	}
+
+
+	method void update() {
+		if (clock = 3) {let clock = 0;} // only update gravity every third cycle
+			else {let clock = clock + 1; return;}
+				
+			let downVelocity = downVelocity + _gravity;
+			let location = location + (32 * downVelocity);
+			let height = height + downVelocity;
+			// Don't fall below ground level, but when reach ground, reset downVelocity
+			if (location > initial_location) {
+				let location = initial_location;
+				let height = initial_height;
+				// if downVelocity > 1, then we are at the end of a jump and need to do a drawJump to clear the last artifacts
+				let downVelocity = 0;
+			}
+		
+		return;
+		
+		
+	}
+	
+	method void jump() {
+		// only jump if on the ground 
+		if (location = initial_location) {
+			let downVelocity = _jump_velocity;
+		}
+		return;
+	}
+	
+	method int collision_box_tly() {
+		return height;
+	}
+}
